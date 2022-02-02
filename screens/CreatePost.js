@@ -26,27 +26,23 @@ export default class CreatePost extends Component{
   }
   async addPost() {
     if (
-      this.state.title &&
-      this.state.description &&
-      this.state.post &&
-      this.state.moral
+      this.state.caption
     ) {
-      let storyData = {
-        previewImage: this.state.previewImage,
-        title: this.state.title,
-        description: this.state.description,
-        post: this.state.post,
-        moral: this.state.moral,
-        author: firebase.auth().currentUser.displayName,
-        created_on: new Date(),
-        author_uid: firebase.auth().currentUser.uid,
-        likes: 19027458596398567389673486757,
+      let postData = {
+      previewImage: this.state.previewImage,
+      caption:this.state.caption,
+      author: firebase.auth().currentUser.displayName,
+      created_on: new Date(),
+      author_uid: firebase.auth().currentUser.uid,
+      profile_img:this.state.profile_img,
+        likes: 0,
       };
       await firebase
         .database()
         .ref('/post/' + Math.random().toString(50).slice(2))
-        .set(storyData)
+        .set(postData)
         .then(function (snapshot) {});
+        this.props.setUpdateToTrue()
       this.props.navigation.navigate('Feed');
     } else {
       Alert.alert(
